@@ -35,13 +35,13 @@ router.post("/register", async (req, res) => {
             {
                 expiresIn: 60 * 60 * 24
             }
-        )
+        );
         //sessionToken not defined
         res.status(201).json({
             message: "User registered",
             user: newUser,
             token
-        })
+        });
     } catch(err) {
         if (err instanceof UniqueConstraintError) {
             res.status(409).json({
@@ -80,22 +80,38 @@ router.post("/login", async (req, res) => {
                     message: "Successful login",
                     user: loginUser,
                     token
-                })
+                });
             } else {
                 res.status(401).json({
                     message: "Incorrect email or password"
-                })
+                });
             }
         } else {
             res.status(401).json({
                 message: "Incorrect email or password"
-            })
-        }
+            });
+        };
     } catch(err){
         res.status(500).json({
             message: "Error logging in"
-        })
+        });
+    };
+});
+
+// Delete
+router.delete("/delete/:id", validateJWT, async (req, res) => {
+
+    try{
+        const query = {
+            where: {
+                id: req.user.id
+            }
+        };
+        await UserModel.destroy(query);
+        res.status(200).json({message: "User deleted"})
+    } catch(err){
+        res.status(500).json({error:err});
     }
-})
+});
 
 module.exports = router;
