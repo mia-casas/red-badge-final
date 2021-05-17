@@ -39,7 +39,7 @@ router.delete("/delete/:id", validateJWT, async (req, res) => {
     try {
         const query = {
             where: {
-                id: req.params.id,
+                id: req.params.id,  //may want to update this
                 owner: req.user.id
             }
         };
@@ -51,13 +51,13 @@ router.delete("/delete/:id", validateJWT, async (req, res) => {
 })
 
 // Update
-router.put("/update/:entryId", validateJWT, async (req, res) => {
+router.put("/update/:postId", validateJWT, async (req, res) => {
     const {date, time, location, title, content, category, imageURL} = req.body.post;
-    const logId = req.params
 
     const query = {
         where: {
-            id: logId
+            id: req.params.postId,
+            owner: req.user.id
         }
     };
     const updatedPost = {
@@ -80,5 +80,4 @@ router.put("/update/:entryId", validateJWT, async (req, res) => {
 module.exports = router;
 
 // let topic = await Topics.findByPk(req.params.id);
-
 //     topic.destroy();
