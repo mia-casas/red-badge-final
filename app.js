@@ -12,6 +12,7 @@ const controllers = require("./controllers");
 
 app.use("/user", controllers.userController);
 app.use("/post", controllers.postController);
+app.use("/likes", controllers.likesController)
 
 dbConnection.authenticate()
 .then(() => dbConnection.sync())

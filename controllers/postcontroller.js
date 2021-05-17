@@ -77,6 +77,33 @@ router.put("/update/:postId", validateJWT, async (req, res) => {
     }
 });
 
+
+// View Mine
+router.get('/my-posts', validateJWT, async (req, res) => {
+
+    try{
+        const userPosts = await PostModel.findAll({
+            where: {
+                owner: req.user
+            }
+        });
+        res.status(200).json(userPosts)
+    } catch(err){
+        res.status(500).json({error:err})
+    }
+});
+
+// View All
+router.get('/all', validateJWT, async (req, res) => {
+
+    try{
+        const allPosts = await PostModel.findAll();
+        res.status(200).json(allPosts)
+    } catch(err){
+        res.status(500).json({error:err})
+    }
+});
+
 module.exports = router;
 
 // let topic = await Topics.findByPk(req.params.id);
