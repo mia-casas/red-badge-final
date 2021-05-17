@@ -7,7 +7,7 @@ UserModel.hasMany(PostModel);
 UserModel.hasMany(LikesModel);
 
 PostModel.hasMany(LikesModel);
-//PostModel.belongsTo(UsersModel)
+PostModel.belongsTo(UserModel)
 
 LikesModel.belongsTo(PostModel)
 

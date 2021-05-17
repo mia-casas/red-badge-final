@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {LikesModel} = require('../models');
+const {LikesModel, PostModel} = require('../models');
 const validateJWT = require("../middleware/validate-jwt");
 const Likes = require('../models/likes');
 
@@ -70,5 +70,28 @@ router.put("/update/:id", validateJWT, async (req, res) => {
         res.status(500).json({error: err});
     }
 });
+
+// View Single Post, including likes and comments
+router.get("/postinfo/:id", async (req, res) => {
+    try {
+        await PostModel.findOne({
+
+            where: {id: req.params.id},
+
+            include: [{
+                model: LikesModel
+            }]
+        }).then(
+            post => {
+                res.status(200).json({
+                    post: post
+                })
+            }
+        )
+    } catch(err){
+        console.log(err)
+        res.status(500).json({error:err})
+    }
+})
 
 module.exports = router
