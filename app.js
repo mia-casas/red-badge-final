@@ -2,13 +2,16 @@ require("dotenv").config();
 const Express = require("express");
 const app = Express();
 const dbConnection = require("./db");
-// const middlewares = require("./middleware");
+const headers = require("./middleware/headers")
 
 
 app.use(Express.json());
+app.use(headers)
 
 const controllers = require("./controllers");
+
 app.use("/user", controllers.userController);
+app.use("/post", controllers.postController);
 
 dbConnection.authenticate()
 .then(() => dbConnection.sync())
@@ -21,3 +24,7 @@ dbConnection.authenticate()
 app.use('/test', (req, res) => {
     res.send("First Test")
 });
+
+// dbConnection.sync({
+//         force: true
+//     });
