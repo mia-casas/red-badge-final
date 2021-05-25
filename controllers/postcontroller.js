@@ -52,7 +52,7 @@ router.delete("/delete/:id", validateJWT, async (req, res) => {
 
 // Update
 router.put("/update/:postId", validateJWT, async (req, res) => {
-    const {date, time, location, title, content, category, imageURL} = req.body.post;
+    const {date, time, location, title, content, category, imageURL} = req.body;
 
     const query = {
         where: {
@@ -94,7 +94,7 @@ router.get('/my-posts', validateJWT, async (req, res) => {
 });
 
 // View All
-router.get('/all', validateJWT, async (req, res) => {
+router.get('/all', async (req, res) => {
 
     try{
         const allPosts = await PostModel.findAll();

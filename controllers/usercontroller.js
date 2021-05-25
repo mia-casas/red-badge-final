@@ -13,7 +13,7 @@ router.get('/test', (req, res) => {
 
 // Sign Up
 router.post("/register", async (req, res) => {
-    const {firstName, lastName, email, password, imageURL} = req.body.user ;
+    const {firstName, lastName, email, password, imageURL} = req.body ;
 
     try {
         const newUser = await UserModel.create({
@@ -36,12 +36,12 @@ router.post("/register", async (req, res) => {
                 expiresIn: 60 * 60 * 24
             }
         );
-        //sessionToken not defined
+        
         res.status(201).json({
             message: "User registered",
             user: newUser,
             token
-        });
+        }) 
     } catch(err) {
         if (err instanceof UniqueConstraintError) {
             res.status(409).json({
@@ -57,7 +57,7 @@ router.post("/register", async (req, res) => {
 
 //Login
 router.post("/login", async (req, res) => {
-    let {email, password} = req.body.user;
+    let {email, password} = req.body;
 
     try {
         const loginUser = await UserModel.findOne({
