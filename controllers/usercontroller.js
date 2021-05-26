@@ -30,7 +30,7 @@ router.post("/register", async (req, res) => {
         const token = jwt.sign(
             {
                 id: newUser.id,
-                isAdmin: loginUser.admin
+                isAdmin: newUser.admin
             },
             process.env.JWT_SECRET,
             {
