@@ -50,7 +50,7 @@ router.delete("/delete/:id", validateJWT, async (req, res) => {
 
 // Update
 router.put("/update/:id", validateJWT, async (req, res) => {
-    const {like, rating, comment} = req.body.like;
+    const {like, rating, comment} = req.body;
 
     const query = {
         where: {
@@ -93,5 +93,17 @@ router.get("/postinfo/:id", async (req, res) => {
         res.status(500).json({error:err})
     }
 })
+
+// View All Comments
+router.get('/all', async (req, res) => {
+
+    try{
+        const allComments = await LikesModel.findAll();
+        res.status(200).json(allComments)
+    } catch(err){
+        res.status(500).json({error:err})
+    }
+});
+
 
 module.exports = router

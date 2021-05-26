@@ -29,7 +29,8 @@ router.post("/register", async (req, res) => {
         //token does not include email
         const token = jwt.sign(
             {
-                id: newUser.id
+                id: newUser.id,
+                isAdmin: loginUser.admin
             },
             process.env.JWT_SECRET,
             {
@@ -71,7 +72,7 @@ router.post("/login", async (req, res) => {
 
             if(passwordComparison){
                 const token = jwt.sign(
-                    {id: loginUser.id},
+                    {id: loginUser.id, isAdmin: loginUser.admin},
                     process.env.JWT_SECRET,
                     {expiresIn: 60 * 60 * 24}
                 );
